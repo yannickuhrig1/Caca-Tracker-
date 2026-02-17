@@ -782,8 +782,7 @@
     const todayCount = state.logs.filter(l => new Date(l.date).toDateString() === today).length;
     $id('today-count').textContent = todayCount;
     $id('total-count').textContent = state.logs.length;
-    $id('mass').textContent = (state.logs.length * 0.4).toFixed(1) + ' kg';
-    updateChart();
+        $id('mass').textContent = (state.logs.length * 0.15).toFixed(1) + ' kg';    updateChart();
   }
 
   // ===================================================
