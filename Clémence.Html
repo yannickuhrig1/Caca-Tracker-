@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>💩 Clemence Caca-Tracker 3000 💖</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="data:application/manifest+json,{
+        'name': 'Clemence Caca-Tracker 3000',
+        'short_name': 'Caca-Tracker',
+        'start_url': '.',
+        'display': 'standalone',
+        'background_color': '#fbbf24',
+        'theme_color': '#d97706',
+        'icons': [{'src': 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9Ijk2IiBjeT0iOTYiIHI9Ijk2IiBmaWxsPSIjZjk3NzA2Ii8+CjxjaXJjbGUgY3g9IjY4IiBjeT0iNjIiIHI9IjE2IiBmaWxsPSIjZmZmIi8+CjxjaXJjbGUgY3g9IjEyNCIgY3k9IjYyIiByPSIxNiIgZmlsbD0iI2ZmZiIvPgo8cGF0aCBkPSJNODQgOTBDODQgODAgOTIgNzYgMTAwIDc2QzEwOCD7NiAxMTIgODAgMTEyIDkwQzExMiAxMDAgMTAwIDEwNCA5MiAxMDRDOCA0IDY0IDEwNCA2NCAxMDZDNjQgMTA4IDY0IDExMiA3MiAxMjBDODAgMTI4IDg4IDEzMiA5NiAxMzJDOCAxMzIgMTA0IDEyOCAxMTIgMTIwQzEyMCAxMTIgMTI4IDEwOCAxMjggMTA0QzEyOCAxMDAgMTI0IDk2IDEyMCA5NkMxMTIgOTYgMTAwIDk2IDk2IDk2WiIgZmlsbD0iIzVmM2Y1MCIvPgo8L3N2Zz4=', 'sizes': '192x192', 'type': 'image/svg+xml'}]
+    }">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+        :root { --p-brown: #5d4037; --p-amber: #d97706; }
+        body { font-family: 'Fredoka', sans-serif; -webkit-tap-highlight-color: transparent; overscroll-behavior-y: contain; }
+        .poop-btn { 
+            box-shadow: 0 20px 0 0 #92400e; 
+            transition: all 0.15s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+            transform-origin: center;
+        }
+        .poop-btn:active { 
+            transform: translateY(12px) scale(0.95); 
+            box-shadow: 0 4px 0 0 #92400e; 
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .selected-ring { outline: 4px solid #f59e0b; outline-offset: 2px; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #d97706; border-radius: 10px; }
+        .confetti { animation: confetti-fall 3s linear infinite; }
+        @keyframes confetti-fall { 0% { transform: translateY(-100vh) rotate(0deg); } 100% { transform: translateY(100vh) rotate(720deg); } }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-amber-100 via-orange-50 to-pink-50 min-h-screen pb-24 text-slate-900">
+    
+    <!-- Header avec Streak 🔥 -->
+    <header class="bg-gradient-to-r from-amber-600 to-orange-600 p-6 text-white shadow-2xl sticky top-0 z-50 rounded-b-3xl backdrop-blur-md">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-white/30 p-3 rounded-3xl backdrop-blur-sm">
+                    <i class="fas fa-poop text-3xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">Clémence 💖</h1>
+                    <p class="text-sm opacity-90">Caca-Tracker 3000 Deluxe</p>
+                </div>
+            </div>
+            <div id="streak-badge" class="hidden bg-red-500 px-3 py-1 rounded-full flex items-center gap-1 text-sm font-bold">
+                <i class="fas fa-fire"></i>
+                <span id="streak-val">0</span> jours 🔥
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Dashboard -->
+    <main class="max-w-md mx-auto px-6 py-8">
+        <div id="dashboard-tab" class="tab-content active">
+            <!-- Stats principales -->
+            <div class="grid grid-cols-2 gap-6 mb-8">
+                <div class="bg-white/70 p-6 rounded-3xl shadow-xl backdrop-blur-sm text-center">
+                    <div class="text-3xl font-bold text-amber-600 mb-1" id="today-count">0</div>
+                    <div class="text-sm text-slate-600">Aujourd'hui</div>
+                </div>
+                <div class="bg-white/70 p-6 rounded-3xl shadow-xl backdrop-blur-sm text-center">
+                    <div class="text-3xl font-bold text-emerald-600 mb-1" id="total-count">0</div>
+                    <div class="text-sm text-slate-600">Total Global</div>
+                </div>
+            </div>
+
+            <!-- Métriques fun -->
+            <div class="grid grid-cols-2 gap-4 mb-8 text-center">
+                <div class="bg-gradient-to-br from-purple-400 to-pink-400 p-4 rounded-2xl text-white font-bold">
+                    <div class="text-2xl" id="velocity">0.00</div>
+                    <div class="text-xs">c/h</div>
+                </div>
+                <div class="bg-gradient-to-br from-blue-400 to-cyan-400 p-4 rounded-2xl text-white font-bold">
+                    <div class="text-2xl" id="mass">0.0</div>
+                    <div class="text-xs">kg</div>
+                </div>
+            </div>
+
+            <!-- Gros Bouton 💩 -->
+            <div class="flex justify-center">
+                <button id="poop-btn" class="poop-btn w-32 h-32 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full text-5xl shadow-2xl hover:scale-105 active:scale-95">
+                    💩
+                </button>
+            </div>
+
+            <!-- Graphique -->
+            <div class="mt-12">
+                <h3 class="font-bold text-lg mb-4 text-center">Cette semaine</h3>
+                <canvas id="week-chart" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Badges -->
+        <div id="badges-tab" class="tab-content">
+            <h3 class="font-bold text-xl mb-6 text-center">🏆 Récompenses Royales</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white/50 p-4 rounded-2xl text-center backdrop-blur-sm">
+                    <i class="fas fa-fire text-3xl text-red-500 mb-2"></i>
+                    <div class="font-bold">Streak x3</div>
+                    <div class="text-xs text-slate-500">3 jours d'affilée</div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div class="bg-red-500 h-2 rounded-full w-0" data-badge="streak3"></div>
+                    </div>
+                </div>
+                <!-- Plus de badges... -->
+            </div>
+        </div>
+
+        <!-- Admin / Historique -->
+        <div id="admin-tab" class="tab-content">
+            <h3 class="font-bold text-xl mb-6">📜 Dernières sessions</h3>
+            <div id="history-list" class="space-y-3 max-h-96 overflow-y-auto"></div>
+            <div class="mt-6 space-y-2">
+                <button id="export-btn" class="w-full bg-blue-500 text-white py-3 rounded-2xl font-bold">📤 Exporter JSON</button>
+                <button id="clear-btn" class="w-full bg-red-500 text-white py-3 rounded-2xl font-bold">🗑️ Supprimer tout</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Navigation basse -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-amber-200 p-3 z-40">
+        <div class="max-w-md mx-auto flex justify-around">
+            <button onclick="switchTab('dashboard')" class="tab-btn p-3 rounded-3xl flex flex-col items-center text-amber-600 font-bold selected-ring">
+                <i class="fas fa-home text-xl"></i>
+                <span class="text-xs mt-1">Accueil</span>
+            </button>
+            <button onclick="switchTab('badges')" class="tab-btn p-3 rounded-3xl flex flex-col items-center">
+                <i class="fas fa-trophy text-xl"></i>
+                <span class="text-xs mt-1">Badges</span>
+            </button>
+            <button onclick="switchTab('admin')" class="tab-btn p-3 rounded-3xl flex flex-col items-center">
+                <i class="fas fa-list text-xl"></i>
+                <span class="text-xs mt-1">Historique</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Drawer pour nouveau caca -->
+    <div id="drawer" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-6">
+        <div class="bg-white rounded-3xl w-full max-w-md max-h-[80vh] overflow-y-auto shadow-2xl">
+            <div class="p-6 sticky top-0 bg-white border-b border-gray-200 rounded-t-3xl">
+                <h2 class="text-2xl font-bold text-center mb-2">Nouveau 💩</h2>
+                <p class="text-center text-slate-500 text-sm">Décris ta merveille !</p>
+            </div>
+            <div class="p-6 space-y-6">
+                <!-- Texture -->
+                <div>
+                    <label class="block text-sm font-bold mb-3">Texture</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button class="texture-btn p-4 rounded-2xl border-2 border-gray-200 hover:border-amber-400 active:bg-amber-50" data-texture="normal"><i class="fas fa-circle text-lg text-brown-500"></i><br><small>Normal</small></button>
+                        <button class="texture-btn p-4 rounded-2xl border-2 border-gray-200 hover:border-amber-400 active:bg-amber-50" data-texture="dur"><i class="fas fa-square text-lg text-brown-700"></i><br><small>Dur</small></button>
+                        <button class="texture-btn p-4 rounded-2xl border-2 border-gray-200 hover:border-amber-400 active:bg-amber-50" data-texture="mou"><i class="fas fa-circle text-lg text-brown-300"></i><br><small>Mou</small></button>
+                        <!-- Plus de textures... -->
+                    </div>
+                </div>
+                <!-- Couleur -->
+                <div>
+                    <label class="block text-sm font-bold mb-3">Couleur</label>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button class="color-btn w-16 h-16 rounded-2xl border-4 border-white shadow-md" style="background: #8B4513;" data-color="marron"></button>
+                        <button class="color-btn w-16 h-16 rounded-2xl border-4 border-white shadow-md" style="background: #FFD700;" data-color="jaune"></button>
+                        <button class="color-btn w-16 h-16 rounded-2xl border-4 border-white shadow-md" style="background: #228B22;" data-color="vert"></button>
+                        <button class="color-btn w-16 h-16 rounded-2xl border-4 border-white shadow-md" style="background: linear-gradient(45deg, #FF69B4, #00CED1);" data-color="arc-en-ciel"></button>
+                    </div>
+                </div>
+                <!-- Commentaire -->
+                <div>
+                    <label class="block text-sm font-bold mb-2">Note (optionnel)</label>
+                    <textarea id="comment" class="w-full p-3 border border-gray-300 rounded-2xl resize-none" rows="3" placeholder="Ex: 'Record personnel ! 🎉'"></textarea>
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button id="cancel-drawer" class="flex-1 bg-gray-300 text-gray-700 py-4 rounded-2xl font-bold">Annuler</button>
+                    <button id="save-poop" class="flex-1 bg-gradient-to-r from-emerald-500 to-green-600 text-white py-4 rounded-2xl font-bold shadow-lg">💥 Éjecter !</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // ÉTAT GLOBAL ET CONFIGURATION
+        // ========================================
+        let state = {
+            logs: [], // [{date: timestamp, texture: 'normal', color: 'marron', comment: ''}]
+            currentTab: 'dashboard'
+        };
+
+        let weekChart = null;
+        const TEXTURES = ['normal', 'dur', 'mou', 'spray', 'liquide', 'explosif'];
+        const COLORS = ['marron', 'jaune', 'vert', 'noir', 'arc-en-ciel'];
+
+        // ========================================
+        // INITIALISATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadState();
+            renderAll();
+            initChart();
+            setupEventListeners();
+            updateStreakBadge();
+        });
+
+        // ========================================
+        // PERSISTANCE (localStorage fallback)
+        // ========================================
+        async function saveState() {
+            try {
+                localStorage.setItem('cacaTracker', JSON.stringify(state));
+                console.log('💾 Sauvegardé localement');
+            } catch (e) {
+                console.error('Erreur sauvegarde:', e);
+            }
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('cacaTracker');
+                if (saved) {
+                    state = { ...state, ...JSON.parse(saved) };
+                    console.log('📂 État chargé:', state.logs.length, 'logs');
+                }
+            } catch (e) {
+                console.error('Erreur chargement:', e);
+            }
+        }
+
+        // ========================================
+        // NAVIGATION ET UI
+        // ========================================
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('selected-ring', 'text-amber-600', 'bg-amber-50'));
+            
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.closest('.tab-btn').classList.add('selected-ring', 'text-amber-600', 'bg-amber-50');
+            
+            state.currentTab = tabName;
+            if (tabName === 'admin') renderHistory();
+            if (tabName === 'dashboard') renderDashboard();
+        }
+
+        function setupEventListeners() {
+            // Bouton principal
+            document.getElementById('poop-btn').onclick = () => {
+                document.getElementById('drawer').classList.remove('hidden');
+            };
+
+            // Drawer
+            document.getElementById('cancel-drawer').onclick = closeDrawer;
+            document.getElementById('save-poop').onclick = savePoop;
+
+            // Admin
+            document.getElementById('export-btn').onclick = exportData;
+            document.getElementById('clear-btn').onclick = clearAll;
+
+            // Sélecteurs
+            document.querySelectorAll('.texture-btn').forEach(btn => {
+                btn.onclick = () => selectTexture(btn.dataset.texture);
+            });
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.onclick = () => selectColor(btn.dataset.color);
+            });
+        }
+
+        function closeDrawer() {
+            document.getElementById('drawer').classList.add('hidden');
+            document.getElementById('comment').value = '';
+            // Reset sélections visuelles
+            document.querySelectorAll('.texture-btn, .color-btn').forEach(b => b.classList.remove('border-amber-500', 'bg-amber-100'));
+        }
+
+        // ========================================
+        // ENREGISTREMENT CACAS
+        // ========================================
+        let selectedTexture = null, selectedColor = null;
+
+        function selectTexture(texture) {
+            selectedTexture = texture;
+            document.querySelectorAll('.texture-btn').forEach(b => b.classList.remove('border-amber-500', 'bg-amber-100'));
+            event.target.classList.add('border-amber-500', 'bg-amber-100');
+        }
+
+        function selectColor(color) {
+            selectedColor = color;
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('ring-4', 'ring-amber-400'));
+            event.target.classList.add('ring-4', 'ring-amber-400');
+        }
+
+        async function savePoop() {
+            if (!selectedTexture || !selectedColor) {
+                alert('Choisis ta texture ET ta couleur ! 💩');
+                return;
+            }
+
+            const poop = {
+                date: Date.now(),
+                texture: selectedTexture,
+                color: selectedColor,
+                comment: document.getElementById('comment').value.trim()
+            };
+
+            state.logs.unshift(poop); // Plus récent en premier
+            state.logs = state.logs.slice(0, 1000); // Limite à 1000
+
+            // Effet confetti
+            showConfetti();
+
+            await saveState();
+            closeDrawer();
+            renderAll();
+        }
+
+        function showConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.innerHTML = '🎉';
+                confetti.className = 'confetti absolute text-2xl pointer-events-none';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+        }
+
+        // ========================================
+        // RENDERS
+        // ========================================
+        function renderAll() {
+            renderDashboard();
+            renderHistory();
+            updateStreakBadge();
+            updateBadges();
+        }
+
+        function renderDashboard() {
+            // Stats de base
+            const today = state.logs.filter(log => {
+                const date = new Date(log.date);
+                return date.toDateString() === new Date().toDateString();
+            }).length;
+            
+            document.getElementById('today-count').textContent = today;
+            document.getElementById('total-count').textContent = state.logs.length;
+
+            // Métriques fun
+            const velocity = calculateVelocity();
+            const mass = (state.logs.length * 0.4 / 1000).toFixed(1);
+            
+            document.getElementById('velocity').textContent = velocity.toFixed(2);
+            document.getElementById('mass').textContent = mass;
+
+            // Mise à jour graphique
+            updateChart();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('history-list');
+            const recent = state.logs.slice(0, 10);
+            
+            if (recent.length === 0) {
+                list.innerHTML = '<div class="text-center py-12 text-slate-500"><i class="fas fa-inbox text-4xl mb-4 block"></i><p>Aucun caca enregistré<br>Sois la première ! 💕</p></div>';
+                return;
+            }
+
+            list.innerHTML = recent.map((log, i) => `
+                <div class="flex items-center gap-4 p-4 bg-white/50 rounded-2xl backdrop-blur-sm border border-gray-200">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-2xl font-bold text-white shadow-md">
+                        ${getPoopEmoji(log)}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="font-bold text-lg capitalize">${log.texture.replace('_', ' ')}</div>
+                        <div class="text-sm text-slate-500 capitalize">${log.color}</div>
+                        ${log.comment ? `<div class="text-xs mt-1 bg-amber-100 px-2 py-1 rounded-lg">${log.comment}</div>` : ''}
+                        <div class="text-xs text-slate-400 mt-1">${new Date(log.date).toLocaleString('fr-FR', {weekday: 'short', hour: '2-digit', minute: '2-digit'})}</div>
+                  
